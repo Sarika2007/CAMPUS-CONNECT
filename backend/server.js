@@ -29,7 +29,15 @@ app.get("/hello", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5001;
+
+const server = app.listen(PORT, "127.0.0.1", () => {
+    console.log(`SERVER ACTUALLY LISTENING ON ${PORT}`);
+});
+
+server.on("error", (error) => {
+    console.log("SERVER ERROR:", error);
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
