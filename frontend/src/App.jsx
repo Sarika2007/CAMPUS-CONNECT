@@ -3,10 +3,10 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Profile from './pages/Profile'
-import Dashboard from './pages/Dashboard'
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
+import Profile from './pages/Profile.jsx'
+import Dashboard from './pages/Dashboard.jsx'
 
 const features = [
   { icon: '💼', title: 'Jobs & Internships', category: 'Career', description: 'Explore career opportunities, internships and your next big step.', tag: 'CAREER GROWTH', path: '/jobs' },
