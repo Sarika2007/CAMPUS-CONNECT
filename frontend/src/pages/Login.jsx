@@ -37,7 +37,7 @@ function Login() {
       }
 
       alert('Login successful! Welcome to Campus Connect 🎉')
-      navigate('/', { replace: true })
+      navigate('/profile', { replace: true })
     } catch (error) {
       console.error('Login error:', error)
       alert('Cannot connect to the backend. Please check the server URL.')
