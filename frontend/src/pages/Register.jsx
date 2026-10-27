@@ -36,8 +36,12 @@ function Register() {
       const data = await response.json()
 
       if (response.ok) {
-        alert('Registration successful! 🎉 Welcome to Campus Connect!')
-        navigate('/', { replace: true })
+    if (data.token) {
+        localStorage.setItem('token', data.token)
+    }
+
+    alert('Registration successful! 🎉 Welcome to Campus Connect!')
+    navigate('/profile', { replace: true })
       } else {
         alert(data.message || 'Registration failed. Please try again.')
       }
