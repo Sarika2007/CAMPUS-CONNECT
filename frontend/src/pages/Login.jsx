@@ -11,36 +11,51 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+
     if (loading) return
 
     setLoading(true)
 
     try {
-      const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+      const apiBase =
+        import.meta.env.VITE_API_URL || 'http://localhost:5001'
 
       const response = await fetch(`${apiBase}/api/auth/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password,
+        }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        alert(data.message || 'Login failed. Check your email and password.')
+        alert(data.message || 'Login failed. Please check your details.')
         return
       }
 
-      // Store token only if your backend returns one.
-      if (data.token) {
-        localStorage.setItem('token', data.token)
+      // Save authentication token
+      if (!data.token) {
+        alert('Login response did not include a token. Please try again.')
+        return
       }
 
-      alert('Login successful! Welcome to Campus Connect 🎉')
-      navigate('/profile', { replace: true })
+      localStorage.setItem('token', data.token)
+
+      // Save basic user information for convenience
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user))
+      }
+
+      // Go to dashboard after successful login
+      navigate('/dashboard', { replace: true })
     } catch (error) {
       console.error('Login error:', error)
-      alert('Cannot connect to the backend. Please check the server URL.')
+      alert('Cannot connect to the server. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -51,7 +66,9 @@ function Login() {
       <div className="register-card">
         <Link to="/" className="register-brand">
           <span className="brand-icon">C</span>
-          <span>Campus<span className="brand-accent">Connect</span></span>
+          <span>
+            Campus<span className="brand-accent">Connect</span>
+          </span>
         </Link>
 
         <div className="register-heading">
@@ -83,7 +100,11 @@ function Login() {
             required
           />
 
-          <button type="submit" className="register-submit" disabled={loading}>
+          <button
+            type="submit"
+            className="register-submit"
+            disabled={loading}
+          >
             {loading ? 'Logging in...' : 'Login →'}
           </button>
         </form>
@@ -92,7 +113,9 @@ function Login() {
           Don't have an account? <Link to="/register">Create one</Link>
         </p>
 
-        <Link to="/" className="register-back">← Back to Home</Link>
+        <Link to="/" className="register-back">
+          ← Back to Home
+        </Link>
       </div>
     </div>
   )
