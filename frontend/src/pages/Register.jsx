@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -18,9 +19,9 @@ function Register() {
 
     try {
       const apiBase =
-  import.meta.env.VITE_API_URL || 'http://localhost:5001'
+        import.meta.env.VITE_API_URL || 'http://localhost:5001'
 
-const response = await fetch(`${apiBase}/api/auth/register', {
+      const response = await fetch(`${apiBase}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +54,9 @@ const response = await fetch(`${apiBase}/api/auth/register', {
       <div className="register-card">
         <Link to="/" className="register-brand">
           <span className="brand-icon">C</span>
-          <span>Campus<span className="brand-accent">Connect</span></span>
+          <span>
+            Campus<span className="brand-accent">Connect</span>
+          </span>
         </Link>
 
         <div className="register-heading">
@@ -97,7 +100,11 @@ const response = await fetch(`${apiBase}/api/auth/register', {
             required
           />
 
-          <button type="submit" className="register-submit" disabled={loading}>
+          <button
+            type="submit"
+            className="register-submit"
+            disabled={loading}
+          >
             {loading ? 'Creating account...' : 'Create Account →'}
           </button>
         </form>
@@ -106,7 +113,9 @@ const response = await fetch(`${apiBase}/api/auth/register', {
           Already have an account? <Link to="/login">Login</Link>
         </p>
 
-        <Link to="/" className="register-back">← Back to Home</Link>
+        <Link to="/" className="register-back">
+          ← Back to Home
+        </Link>
       </div>
     </div>
   )
