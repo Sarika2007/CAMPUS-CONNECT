@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -5,9 +6,6 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 
 const app = express();
-
-// Connect MongoDB
-connectDB();
 
 // Middleware
 app.use(cors());
@@ -18,7 +16,7 @@ app.get("/", (req, res) => {
     res.send("Campus Connect Backend is Running 🚀");
 });
 
-// New server test route
+// Server test route
 app.get("/hello", (req, res) => {
     res.json({
         message: "NEW SERVER IS WORKING"
@@ -29,16 +27,16 @@ app.get("/hello", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
-const PORT = 5001;
+// Start server only once
+const PORT = process.env.PORT || 5001;
 
-const server = app.listen(PORT, "127.0.0.1", () => {
-    console.log(`SERVER ACTUALLY LISTENING ON ${PORT}`);
-});
+app.listen(PORT, "0.0.0.0", async () => {
+    console.log(`Campus Connect server running on port ${PORT}`);
 
-server.on("error", (error) => {
-    console.log("SERVER ERROR:", error);
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    try {
+        await connectDB();
+        console.log("MongoDB connected successfully");
+    } catch (error) {
+        console.error("MongoDB connection failed:", error.message);
+    }
 });
